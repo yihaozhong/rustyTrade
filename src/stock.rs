@@ -2,7 +2,8 @@
 
 use std::collections::VecDeque;
 use crate::api;
-
+use crate::util;
+use std::error::Error;
 pub struct Stock {
     pub symbol: String,
     prices: VecDeque<f64>,
@@ -23,14 +24,19 @@ impl Stock {
             self.prices.pop_front();
         }
     }
-    pub async fn update_price(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-        let new_price = api::fetch_price(&self.symbol).await?;
-        self.prices.push_back(new_price);
-        if self.prices.len() > self.window_size {
-            self.prices.pop_front();
+    pub async fn update_price(&mut self) -> Result<(), Box<dyn Error>> {
+        let data = api::fetch_stock_data(&self.symbol).await?;
+        if let Some(new_prices) = util::extract_prices(&data) {
+            for price in new_prices {
+                self.prices.push_back(price);
+                if self.prices.len() > self.window_size {
+                    self.prices.pop_front();
+                }
+            }
         }
         Ok(())
     }
+
 
     pub fn current_price(&self) -> f64 {
         *self.prices.back().unwrap_or(&0.0)

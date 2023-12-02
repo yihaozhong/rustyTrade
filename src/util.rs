@@ -1,6 +1,6 @@
 // util.rs
 
-use serde_json::{Value, Map};
+use serde_json::{Value};
 use std::collections::VecDeque;
 
 pub fn extract_prices(data: &Value) -> Option<VecDeque<f64>> {
