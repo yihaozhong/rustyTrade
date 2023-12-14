@@ -9,7 +9,7 @@ Hi, this is my simple trading system with orders and api written in Rust. A proj
 5. config.rs: Manages configuration settings and command-line arguments.
 6. util.rs: Contains utility functions and common helpers.
 
-##Compilation and Dependencies
+## Compilation and Dependencies
 - Place each of these code snippets into their respective files in a Rust project.
 - Add necessary dependencies like reqwest, tokio, serde, etc., in Cargo.toml.
 - Ensure that the modules are correctly referenced and public functions are exposed as needed.
